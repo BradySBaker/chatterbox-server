@@ -12,6 +12,11 @@ this file and include it in basic-server.js so that it actually works.
 
 **************************************************************/
 
+// var messages = [{username: 'Jono', text: 'Do my bidding!'}];
+
+
+var messages = [];
+
 var requestHandler = function(request, response) {
   var defaultCorsHeaders = {
     'access-control-allow-origin': '*',
@@ -34,42 +39,58 @@ var requestHandler = function(request, response) {
   // debugging help, but you should always be careful about leaving stray
   // console.logs in your code.
 
-  setTimeout(() => ( console.log('Serving request type ' + request.method + ' for url ' + request.url) ));
-
-
-
-
-  /////use request.url ^^^^^^
-  ///////////////WE ARE HERE/////////////////////////
-
-
-  if (request.url === '/classes/messages') {
-    if (request.method === 'GET') {
-
-    }
-  }
-
-
-
+  console.log('Serving request type ' + request.method + ' for url ' + request.url);
 
 
 
 
   // The outgoing status.
-  var statusCode = 200;
+  var statusCode = 404;
 
   // See the note below about CORS headers.
   var headers = defaultCorsHeaders;
+
 
   // Tell the client we are sending them plain text.
   //
   // You will need to change this if you are sending something
   // other than plain text, like JSON or HTML.
-  headers['Content-Type'] = 'text/plain';
+
+  headers['Content-Type'] = 'application/json';
+
 
   // .writeHead() writes to the request line and headers of the response,
   // which includes the status and all headers.
+
+  var dataBody = 'ERROR';
+
+
+  if (request.url === '/classes/messages') {
+    if (request.method === 'GET') {
+      // console.log('GET: ', messages);
+      statusCode = 200;
+      dataBody = JSON.stringify(messages);
+    } else if (request.method === 'POST') {
+      statusCode = 201;
+      // console.log(request);
+      request.on('data', (data) => {///////////////////////////////////////////// this line got us unstuck via helpdesk
+        // console.log('DATA====>, ', JSON.parse(data));
+        messages.push(JSON.parse(data));
+        dataBody = 'Post request recieved';
+      });
+      // console.log('request========> ', request._postData);
+    } else if (request.method === 'OPTIONS') {
+      statusCode = 200;
+      dataBody = 'Sent options';
+    }
+  }
+
+  // console.log('request========> ', request);
+  // console.log('dataBody=======> ', dataBody);
+  // console.log('statusCode=====> ', statusCode);
+
   response.writeHead(statusCode, headers);
+  response.end(dataBody);
 
   // Make sure to always call response.end() - Node may not send
   // anything back to the client until you do. The string you pass to
@@ -79,7 +100,6 @@ var requestHandler = function(request, response) {
   // Calling .end "flushes" the response's internal buffer, forcing
   // node to actually send all the data over to the client.
 
-  response.end('Hello, from requestHandler!');
 };
 
 // These headers will allow Cross-Origin Resource Sharing (CORS).
