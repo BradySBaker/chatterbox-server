@@ -14,10 +14,52 @@ this file and include it in basic-server.js so that it actually works.
 
 // var messages = [{username: 'Jono', text: 'Do my bidding!'}];
 
+var fs = require('fs');
 
 var messages = [];
 
+
+var readMessages = function(cb) {
+  fs.readFile('server/messageFile.txt', 'utf8', function(err, data) {
+    if (err) {
+      console.log('err ', err);
+    }
+    cb(data);/////////////////////////////////////////////////////////////////////investigate why cb works here, but when using "return data" it returns undefined.
+
+    //
+  });
+};
+
+
+
+
 var requestHandler = function(request, response) {
+
+  readMessages((data) => {
+    messages = JSON.parse(data);
+  });
+
+
+
+  //I was thinking for post what we can do is first push the new content to are messages array
+
+  //messages.push(data)
+  //Then delete everything in messageFile.txt and overwrite it will the new stringifed messages
+
+  //that sounds like a good plan!
+
+  //Hopefully that will work I think theres an issue with asynhcronous where we send back the data before messages is updated from the file but it still sends later on
+
+  //yeah, ill definitely give that a try when i refactor a bit. when i have time
+
+//Same good working with you!!!!! We can do so much more now with are server side knowledge!
+
+
+//same! I'll commit n push now
+
+//yup, agreed! TA here we come! lol
+
+
   var defaultCorsHeaders = {
     'access-control-allow-origin': '*',
     'access-control-allow-methods': 'GET, POST, PUT, DELETE, OPTIONS',
@@ -40,8 +82,6 @@ var requestHandler = function(request, response) {
   // console.logs in your code.
 
   console.log('Serving request type ' + request.method + ' for url ' + request.url);
-
-
 
 
   // The outgoing status.
@@ -68,6 +108,7 @@ var requestHandler = function(request, response) {
   if (request.url === '/classes/messages') {
     if (request.method === 'GET') {
       statusCode = 200;
+      console.log(messages);
       dataBody = JSON.stringify(messages);
     } else if (request.method === 'POST') {
       statusCode = 201;

@@ -1,0 +1,153 @@
+body {
+    background: #eee;
+    text-align: center;
+    padding: 0 25px;
+    font-family: arial, sans-serif;
+}
+
+#main, #chats {
+    width: 100%;
+    margin: auto;
+    text-align: left;
+    background: white;
+    padding: 50px 60px;
+    border: solid #ddd;
+    border-width: 0 1px 1px 1px;
+}
+#main h1 {
+    color: blueviolet;
+    margin-top: 0;
+    font-size: 35px;
+    margin-bottom: 5px;
+    padding: 5px;
+
+}
+
+#main h1 span {
+    font-style:italic;
+}
+
+#main ul {
+    padding-left: 20px;
+}
+
+#main .error {
+    border: 1px solid red;
+    background: #FDEFF0;
+    padding: 20px;
+}
+
+#main .success {
+    margin-top: 25px;
+}
+
+#main .success code {
+    font-size: 12px;
+    color: green;
+    line-height: 13px;
+}
+
+form {
+    padding: 20px;
+    padding-left: 0;
+    margin-bottom: 20px;
+}
+
+form input[type=text] {
+    margin-right: 10px;
+    width: 70%;
+    font-size: 12px;
+    padding: 5px;
+}
+#rooms {
+    font-weight: 800;
+    color: cornflowerblue;
+}
+
+#rooms select {
+    color: green;
+    font-style: italic;
+}
+
+#rooms button {
+    position: absolute;
+    top: 116px;
+    left: 260px;
+    margin: auto;
+    border: 1px solid rgb(138, 37, 37);
+    border-radius: 8px;
+}
+
+#rooms button:hover {
+    border: 2px solid rgb(138, 37, 37);
+    border-radius: 10px;
+    background-color: wheat;
+}
+.chat {
+    padding: 5px;
+    margin-bottom: 5px;
+    background-color: rgb(185, 178, 169);
+    margin-left: auto;
+    margin-right: auto;
+    width: 50%;
+    height: 100px;
+    border: 5px solid rgb(96, 79, 79);
+    border-radius: 10px;
+}
+
+.chat .username {
+    position: absolute;
+    font-weight: 800;
+}
+.chat .text {
+    position: relative;
+    top: 20%;
+    text-align: center;
+    font-size: 20px;
+    font-weight: 500;
+}
+.chat.friend:hover {
+    background-color: rgb(68, 194, 197);
+}
+.chat:hover {
+    background-color: #ddd;
+}
+.chat .username:hover {
+    background-color: rgb(70, 4, 125);
+    border-radius: 5px;
+    border: 2px solid black;
+    cursor: pointer;
+}
+
+.spinner {
+    float: right;
+    height: 46px;
+    margin-bottom: 5px;
+}
+
+.spinner img {
+    padding: 10px;
+}
+.friend {
+    color: #fff;
+    background-color: #0090da;
+}
+#friendsList {
+    width: 180px;
+    border: 5px solid black;
+    border-radius:10px;
+    text-align: center;
+    font-weight: 800;
+}
+#friendsList li {
+  color: red;
+  text-align: left;
+}
+
+.time {
+  position: relative;
+  top: 50%;
+  float: right;
+  color: blue;
+  font-style: italic;
+}
