@@ -60,6 +60,25 @@ describe('server', function() {
 
   });
 
+
+  it('data should not add a object with no username or text key', function(done) {
+
+    var requestParams = {method: 'POST',
+      uri: 'http://127.0.0.1:3000/classes/messages',
+      json: {
+        empty: 'Nothing'
+      }
+    };
+
+    request(requestParams, function(error, response, body) {
+      var messages = body;
+      expect(response.statusCode).to.equal(400);
+      expect(messages[2]).to.equal(undefined);
+      done();
+    });
+
+  });
+
   it('Should 404 when asked for a nonexistent endpoint', function(done) {
     request('http://127.0.0.1:3000/arglebargle', function(error, response, body) {
       expect(response.statusCode).to.equal(404);

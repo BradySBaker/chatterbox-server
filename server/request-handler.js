@@ -74,17 +74,24 @@ var requestHandler = function(request, response) {
       request.on('data', (data) => {
         var message = JSON.parse(data);
         message['message_id'] = messages.length + 1;
-        messages.push(message);
+        dataBody = JSON.stringify(messages);
+        if (message.username && message.text) {
+          messages.push(message);
+        } else {
+          statusCode = 400;
+        }
+        response.writeHead(statusCode, headers);
+        response.end(dataBody);
       });
-      dataBody = JSON.stringify(messages);
     } else if (request.method === 'OPTIONS') {
       statusCode = 200;
       dataBody = 'Sent options';
     }
   }
-  // console.log('Data sent ==========>');
-  response.writeHead(statusCode, headers);
-  response.end(dataBody);
+  if (request.method !== 'POST') {
+    response.writeHead(statusCode, headers);
+    response.end(dataBody);
+  }
 
   // Make sure to always call response.end() - Node may not send
   // anything back to the client until you do. The string you pass to
