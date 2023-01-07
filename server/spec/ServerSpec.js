@@ -49,9 +49,8 @@ describe('Node Server Request Listener Function', function() {
     // Expect 201 Created response status
     expect(res._responseCode).to.equal(201);
 
-    // Testing for a newline isn't a valid test
-    // TODO: Replace with with a valid test
-    // expect(res._data).to.equal(JSON.stringify('\n'));
+    expect(res._data).to.not.equal(undefined || null);
+
     expect(res._ended).to.equal(true);
   });
 
@@ -76,9 +75,11 @@ describe('Node Server Request Listener Function', function() {
     expect(res._responseCode).to.equal(200);
     var messages = JSON.parse(res._data);
     expect(messages.length).to.be.above(0);
+    expect(typeof(messages[0])).to.equal('object');
     expect(messages[0].username).to.equal('Jono');
     expect(messages[0].text).to.equal('Do my bidding!');
     expect(res._ended).to.equal(true);
+
   });
 
   it('Should 404 when asked for a nonexistent file', function() {
@@ -88,6 +89,9 @@ describe('Node Server Request Listener Function', function() {
     handler.requestHandler(req, res);
 
     expect(res._responseCode).to.equal(404);
+
+    expect(res._data).to.equal('ERROR');
+
     expect(res._ended).to.equal(true);
   });
 
