@@ -67,28 +67,22 @@ var requestHandler = function(request, response) {
 
   if (request.url === '/classes/messages') {
     if (request.method === 'GET') {
-      // console.log('GET: ', messages);
       statusCode = 200;
       dataBody = JSON.stringify(messages);
     } else if (request.method === 'POST') {
       statusCode = 201;
-      // console.log(request);
-      request.on('data', (data) => {///////////////////////////////////////////// this line got us unstuck via helpdesk
-        // console.log('DATA====>, ', JSON.parse(data));
-        messages.push(JSON.parse(data));
-        dataBody = 'Post request recieved';
+      request.on('data', (data) => {
+        var message = JSON.parse(data);
+        message['message_id'] = messages.length + 1;
+        messages.push(message);
       });
-      // console.log('request========> ', request._postData);
+      dataBody = JSON.stringify(messages);
     } else if (request.method === 'OPTIONS') {
       statusCode = 200;
       dataBody = 'Sent options';
     }
   }
-
-  // console.log('request========> ', request);
-  // console.log('dataBody=======> ', dataBody);
-  // console.log('statusCode=====> ', statusCode);
-
+  // console.log('Data sent ==========>');
   response.writeHead(statusCode, headers);
   response.end(dataBody);
 
